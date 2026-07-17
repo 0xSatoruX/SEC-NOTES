@@ -21,5 +21,19 @@ Good luck, and have fun. You'll get out of this module and practice lab as much 
 
 Keep hacking, and remember to think outside the box!
 
-**Q1.Connect to the testing VM using Xfreerdp and practice testing, documentation, and reporting against the target lab. Once the target spawns, browse to the WriteHat instance on port 443 and authenticate with the provided admin credentials. Play around with the tool and practice adding findings to the database to get a feel for the reporting tools available to us. Remember that all data will be lost once the target resets, so save any practice findings locally! Next, complete the in-progress penetration test. Once you achieve Domain Admin level access, submit the contents of the flag.txt file on the Administrator Desktop on the DC01 host.
+**Q1. Connect to the testing VM using Xfreerdp and practice testing, documentation, and reporting against the target lab. Once the target spawns, browse to the WriteHat instance on port 443 and authenticate with the provided admin credentials. Play around with the tool and practice adding findings to the database to get a feel for the reporting tools available to us. Remember that all data will be lost once the target resets, so save any practice findings locally! Next, complete the in-progress penetration test. Once you achieve Domain Admin level access, submit the contents of the flag.txt file on the Administrator Desktop on the DC01 host.
 
+we got the info from the notes that we were able to spoof response using responder, we were able to get some 3 users ntlm v2 hashes, using hashcat we cracked and got the password.
+```
+
+backupagent::INLANEFREIGHT:6c8613c3033a61f2:11193C889AB1B85D31EB1236B53C1C8C:010100000000000080AB3A23BE15DD01A0B2E81837318E310000000002000800320049005000490001001E00570049004E002D003800390032003900580058004E00450054005200580004003400570049004E002D003800390032003900580058004E0045005400520058002E0032004900500049002E004C004F00430041004C000300140032004900500049002E004C004F00430041004C000500140032004900500049002E004C004F00430041004C000700080080AB3A23BE15DD0106000400020000000800300030000000000000000000000000300000F066614793B03DB455C04F97B0ADB27B235ED2DA947DFE2B3E55E02924967AD90A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0035002E003200320035000000000000000000
+
+
+```
+
+after getting the creds we tried ran bloodhound.py and  found out this user was part of domain admins so we tried logging using evil-winrm after scanning the ip using nmap.
+
+then we used secretsdump.py  to dump the hashes we were able to get  the KRBTGT user hash and also we were able to find the svc_reporting user hash .
+
+
+I think this was the easiest way we do have many other options attack options available as we have a lot of information about the target in the notes.
